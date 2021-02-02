@@ -15,6 +15,7 @@ class AuthService {
       }
       return message ?? 'Registo Efectuado com Sucesso';
     } on FirebaseAuthException catch (e) {
+      print(e);
       if (e.code == 'weak-password') {
         message = 'Palavra-passe demasiado fraca';
       } else if (e.code == 'email-already-in-use') {
