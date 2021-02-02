@@ -10,7 +10,7 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
       message = userCredential.additionalUserInfo.username;
       User user = auth.currentUser;
-      if (!user.emailVerified) {
+      if (!isEmailVerified()) {
         await user.sendEmailVerification();
       }
       return message ?? 'Registo Efectuado com Sucesso';
