@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterfire_demo/helpers/constantes.dart';
 import 'package:flutterfire_demo/services/AuthService.dart';
 import 'package:flutterfire_demo/widgets/custom_button.dart';
 import 'package:flutterfire_demo/widgets/custom_textField.dart';
@@ -97,7 +98,14 @@ class _FireHomeState extends State<FireHome> {
                         buttonWidth: 300,
                         isPersonalized: false,
                         title: 'Authenticate',
-                      )
+                      ),
+                SizedBox(
+                  height: 20,
+                ),
+                FlatButton(
+                    onPressed: () =>
+                        Navigator.pushNamed(context, phone_validation_screen),
+                    child: Text('Usar número de telemóvel para validação'))
               ],
             ),
           ),
