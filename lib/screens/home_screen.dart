@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:flutterfire_demo/helpers/constantes.dart';
-import 'package:flutterfire_demo/services/AuthService.dart';
+import 'package:flutterfire_demo/services/auth_service.dart';
 import 'package:flutterfire_demo/widgets/custom_button.dart';
 import 'package:flutterfire_demo/widgets/custom_textField.dart';
 
@@ -16,6 +17,7 @@ class _FireHomeState extends State<FireHome> {
   bool _isDoneRegister = false,
       _isDoneSignIn = false,
       _isLoadingRegister = false,
+      _isLoadingGSignIn = false,
       _isLoadingSignIn = false;
   String _message;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -73,7 +75,7 @@ class _FireHomeState extends State<FireHome> {
                         },
                         buttonWidth: 300,
                         isPersonalized: false,
-                        title: 'Register',
+                        title: 'Registo',
                       ),
                 _isLoadingSignIn
                     ? Center(child: CircularProgressIndicator())
@@ -97,7 +99,32 @@ class _FireHomeState extends State<FireHome> {
                         },
                         buttonWidth: 300,
                         isPersonalized: false,
-                        title: 'Authenticate',
+                        title: 'Authenticar',
+                      ),
+                _isLoadingGSignIn
+                    ? Center(child: CircularProgressIndicator())
+                    : SignInButton(
+                        Buttons.Google,
+                        text: "Entrar com Google",
+                        onPressed: () {
+                          setState(() {
+                            _isLoadingGSignIn = true;
+                          });
+                          authService
+                              .signInWithGoogle()
+                              .whenComplete(() {})
+                              .then((value) {
+                            setState(() {
+                              _isLoadingGSignIn = false;
+                              _isDoneSignIn = true;
+                              _message = value;
+                            });
+                            Navigator.pushReplacementNamed(
+                                context, collection_screen);
+                          });
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
                       ),
                 SizedBox(
                   height: 20,

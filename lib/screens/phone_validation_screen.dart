@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterfire_demo/helpers/constantes.dart';
-import 'package:flutterfire_demo/services/AuthService.dart';
+import 'package:flutterfire_demo/services/auth_service.dart';
 import 'package:flutterfire_demo/widgets/custom_button.dart';
 import 'package:flutterfire_demo/widgets/custom_textField.dart';
 

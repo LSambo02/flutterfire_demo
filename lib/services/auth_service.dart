@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -105,6 +106,31 @@ class AuthService {
         .then((value) {
       return 'Usuário logado';
     });
+  }
+
+  Future signInWithGoogle() async {
+    try {
+      //aciona o serviço de autenticação google
+      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      //criação de credencias para autenticar o utilizador na aplicação
+      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      //com a credencial é possivel então efectuar a autenticação do utilizador
+      return await auth
+          .signInWithCredential(credential)
+          .whenComplete(() {})
+          .then((value) {
+        return 'Usuário logado';
+      });
+      //tratamento de excepções
+    } on FirebaseAuthException catch (e) {
+      return 'Erro ao autenticar conta  \n$e';
+    }
   }
 
   bool isEmailVerified() {
