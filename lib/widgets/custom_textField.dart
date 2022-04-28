@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
-  String validatorText, hintText;
+  String? validatorText, hintText;
   void Function(String value) onChange;
-  void Function(String value) validator;
+  String? Function(String? value)? validator;
   bool isPasswordField;
-  TextInputType inputType;
+  TextInputType? inputType;
 
   CustomTextField(
-      {@required this.validatorText,
-      @required this.hintText,
-      @required this.onChange,
+      {required this.validatorText,
+      required this.hintText,
+      required this.onChange,
       this.isPasswordField = false,
       this.inputType,
       this.validator});
@@ -34,7 +34,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         obscureText: widget.isPasswordField ? isObscureText : false,
         validator: widget.validator ??
             (val) {
-              return val.isEmpty ? widget.validatorText : null;
+              return val!.isEmpty ? widget.validatorText : null;
             },
         keyboardType: widget.inputType,
         style: TextStyle(color: Colors.white),

@@ -1,6 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_demo/helpers/constantes.dart';
+import 'package:flutterfire_demo/models/minion.dart';
 import 'package:flutterfire_demo/services/firestore_service.dart';
 import 'package:flutterfire_demo/widgets/add_minion_dialog.dart';
 
@@ -28,9 +29,10 @@ class _MinionsScreenState extends State<MinionsScreen> {
                   }))
         ],
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: firestoreService.minions.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      body: FirestoreBuilder<MinionQuerySnapshot>(
+        ref: minionsRef,
+        builder: (BuildContext context,
+            AsyncSnapshot<MinionQuerySnapshot> snapshot, Widget? child) {
           if (snapshot.hasError) {
             return Text('Occorreu um erro');
           }
@@ -45,11 +47,15 @@ class _MinionsScreenState extends State<MinionsScreen> {
               child: Text("SEM DADOS"),
             );
           }
-          return new ListView(
-            children: snapshot.data.docs.map((DocumentSnapshot document) {
+
+          MinionQuerySnapshot minionSnapshot = snapshot.requireData;
+          return new ListView.builder(
+            itemCount: minionSnapshot.docs.length,
+            itemBuilder: (context, index) {
+              Minion minion = minionSnapshot.docs[index].data;
               return new ListTile(
                 title: new Text(
-                  document.data()['nome'],
+                  minion.name,
                   style: TextStyle(fontSize: 20),
                 ),
                 leading: CircleAvatar(
@@ -62,7 +68,7 @@ class _MinionsScreenState extends State<MinionsScreen> {
                   thickness: 2,
                 ),
               );
-            }).toList(),
+            },
           );
         },
       ),

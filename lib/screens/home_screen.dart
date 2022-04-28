@@ -12,14 +12,14 @@ class FireHome extends StatefulWidget {
 }
 
 class _FireHomeState extends State<FireHome> {
-  String _email, _password;
+  late String _email, _password;
   AuthService authService = AuthService();
   bool _isDoneRegister = false,
       _isDoneSignIn = false,
       _isLoadingRegister = false,
       _isLoadingGSignIn = false,
       _isLoadingSignIn = false;
-  String _message;
+  late String _message;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -57,7 +57,7 @@ class _FireHomeState extends State<FireHome> {
                     ? Center(child: CircularProgressIndicator())
                     : CustomButton(
                         onTapped: () {
-                          if (formKey.currentState.validate()) {
+                          if (formKey.currentState!.validate()) {
                             setState(() {
                               _isLoadingRegister = true;
                             });
@@ -81,7 +81,7 @@ class _FireHomeState extends State<FireHome> {
                     ? Center(child: CircularProgressIndicator())
                     : CustomButton(
                         onTapped: () {
-                          if (formKey.currentState.validate()) {
+                          if (formKey.currentState!.validate()) {
                             setState(() {
                               _isLoadingSignIn = true;
                             });

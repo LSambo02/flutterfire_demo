@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   void Function() onTapped;
-  Color color;
+  Color? color;
   double buttonWidth;
-  String title;
+  String? title;
   bool isPersonalized = false;
   var childWidget;
 
   CustomButton(
-      {@required this.onTapped,
+      {required this.onTapped,
       this.color,
-      @required this.buttonWidth,
+      required this.buttonWidth,
       this.title,
-      @required this.isPersonalized,
+      required this.isPersonalized,
       this.childWidget});
 
   @override
@@ -33,7 +33,7 @@ class CustomButton extends StatelessWidget {
           child: isPersonalized
               ? childWidget
               : Text(
-                  title,
+                  title!,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,

@@ -4,18 +4,21 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
   String message = '';
-  String _verificationId;
+  late String _verificationId;
+
+  late List<String> _msg;
 
   Future register(String email, String password) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      message = userCredential.additionalUserInfo.username;
-      User user = auth.currentUser;
+      message = userCredential.additionalUserInfo!.username!;
+      User? user = auth.currentUser;
       if (!isEmailVerified()) {
-        await user.sendEmailVerification();
+        await user!.sendEmailVerification();
       }
-      return message ?? 'Registo Efectuado com Sucesso';
+      return message;
+      // ?? 'Registo Efectuado com Sucesso';
     } on FirebaseAuthException catch (e) {
       print(e);
       if (e.code == 'weak-password') {
@@ -35,12 +38,12 @@ class AuthService {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
-      message = userCredential.additionalUserInfo.username;
+      message = userCredential.additionalUserInfo!.username!;
       if (isEmailVerified()) {
         message = 'Login Efectuado com Sucesso\nParabéns, ganhou acesso à app';
       }
-      return message ??
-          'Login Efectuado com Sucesso\nAguardando Confirmação de email';
+      return message;
+      // ?? 'Login Efectuado com Sucesso\nAguardando Confirmação de email';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         message = 'Utilizador com email fornecido não encontrado';
@@ -51,8 +54,8 @@ class AuthService {
     }
   }
 
-  phoneVerificationAuth(String phoneNumber) async {
-    print('l$phoneNumber');
+  Future phoneVerificationAuth(String phoneNumber) async {
+    // print('l$phoneNumber');
 
     //verificar se numero é válido para o envio/validação do mesmo
     return await auth.verifyPhoneNumber(
@@ -73,22 +76,22 @@ class AuthService {
         verificationFailed: (FirebaseAuthException e) {
           print('m: ${e.message}');
           //Para actualização da nossa UI
-          return ['Validação falhou com o seguinte erro: ${e.message}'];
+          _msg = ['Validação falhou com o seguinte erro: ${e.message}'];
         },
         //envio do código de confirmação
-        codeSent: (String verificationId, int resendToken) async {
+        codeSent: (String verificationId, int? resendToken) async {
           _verificationId = verificationId;
           //Para actualização da nossa UI
-          return [
+          _msg = [
             'Efectuou a validação com sucesso\n Insira o código enviado:',
             verificationId,
-            resendToken
+            resendToken.toString()
           ];
         },
         //lidar com erros de timeout
         codeAutoRetrievalTimeout: (String verificationId) {
           //Para actualização da nossa UI
-          return [verificationId];
+          _msg = [verificationId];
         });
   }
 
@@ -96,7 +99,7 @@ class AuthService {
   confirmPhoneVerificationAuth(smsCode) async {
     //instanciar "manualmente" o PhoneAuthCredential para gerar a credencial que nos possibilita
     // efectuar a validação
-    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+    AuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
         verificationId: _verificationId, smsCode: smsCode);
 
     //com a credencial é possivel então efectuar a autenticação do utilizador
@@ -111,11 +114,11 @@ class AuthService {
   Future signInWithGoogle() async {
     try {
       //aciona o serviço de autenticação google
-      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+          await googleUser!.authentication;
       //criação de credencias para autenticar o utilizador na aplicação
-      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+      final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
@@ -134,7 +137,7 @@ class AuthService {
   }
 
   bool isEmailVerified() {
-    User user = auth.currentUser;
-    return user.emailVerified;
+    User? user = auth.currentUser;
+    return user!.emailVerified;
   }
 }

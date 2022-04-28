@@ -10,11 +10,11 @@ class PhoneValidationScreen extends StatefulWidget {
 }
 
 class _PhoneValidationScreenState extends State<PhoneValidationScreen> {
-  String _numero;
+  late String _numero;
   AuthService authService = AuthService();
   bool _isDoneRegister = false, _isCodeSent = false, _isLoadingRegister = false;
-  String _message = '', _verificationId, _codigo;
-  int _resendToken;
+  late String _message = '', _verificationId, _codigo;
+  late int _resendToken;
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 

@@ -3,12 +3,12 @@ import 'package:flutterfire_demo/services/firestore_service.dart';
 
 class AddMinion extends StatelessWidget {
   double width;
-  String minionName;
+  late String minionName;
   FirestoreService firestoreService = FirestoreService();
   TextEditingController minionNameController = TextEditingController();
 
   AddMinion({
-    @required this.width,
+    required this.width,
   });
 
   @override

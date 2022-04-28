@@ -5,9 +5,6 @@ class FirestoreService {
   CollectionReference minions =
       FirebaseFirestore.instance.collection('minions');
 
-  //funcao lambda pra permitir acesso a coleção de outras classes
-  collection() => minions;
-
   Future<String> addMinion(String minionName) {
     //adicionar o objecto em forma de json para a coleção de minions
     return minions
