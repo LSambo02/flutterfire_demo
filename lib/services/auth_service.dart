@@ -1,3 +1,4 @@
+import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -17,6 +18,7 @@ class AuthService {
       if (!isEmailVerified()) {
         await user!.sendEmailVerification();
       }
+      print('token: ${user?.getIdToken()}');
       return message;
       // ?? 'Registo Efectuado com Sucesso';
     } on FirebaseAuthException catch (e) {
@@ -122,14 +124,17 @@ class AuthService {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+      String token = await FirebaseInstallations.instance.getToken();
 
       //com a credencial é possivel então efectuar a autenticação do utilizador
       return await auth
           .signInWithCredential(credential)
           .whenComplete(() {})
           .then((value) {
+        print('token:: $token');
         return 'Usuário logado';
       });
+
       //tratamento de excepções
     } on FirebaseAuthException catch (e) {
       return 'Erro ao autenticar conta  \n$e';

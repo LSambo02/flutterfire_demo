@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:flutterfire_demo/helpers/constantes.dart';
@@ -21,6 +21,14 @@ class _FireHomeState extends State<FireHome> {
       _isLoadingSignIn = false;
   late String _message;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final remoteConfig = FirebaseRemoteConfig.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    remoteConfiConfig();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +137,7 @@ class _FireHomeState extends State<FireHome> {
                 SizedBox(
                   height: 20,
                 ),
-                FlatButton(
+                TextButton(
                     onPressed: () =>
                         Navigator.pushNamed(context, phone_validation_screen),
                     child: Text('Usar número de telemóvel para validação'))
@@ -139,5 +147,14 @@ class _FireHomeState extends State<FireHome> {
         ),
       ),
     );
+  }
+
+  Future<void> remoteConfiConfig() async {
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(seconds: 1),
+      minimumFetchInterval: const Duration(seconds: 1),
+    ));
+    await remoteConfig.setDefaults({btn_thickness: 20, btn_pos: false});
+    await remoteConfig.fetchAndActivate();
   }
 }

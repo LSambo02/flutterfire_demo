@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutterfire_demo/services/firestore_service.dart';
 
+import '../models/minion.dart';
+
 class AddMinion extends StatelessWidget {
   double width;
-  late String minionName;
+  String minionName = '';
   FirestoreService firestoreService = FirestoreService();
   TextEditingController minionNameController = TextEditingController();
 
@@ -48,8 +50,13 @@ class AddMinion extends StatelessWidget {
                           ),
                           onPressed: () async {
                             if (minionName != null) {
+                              Minion minion = Minion(
+                                  name: minionName,
+                                  age: 12,
+                                  skill: 'Sing',
+                                  trait: 'Gums');
                               String _message =
-                                  await firestoreService.addMinion(minionName);
+                                  await firestoreService.addMinion(minion);
                               print(_message);
                               Navigator.pop(context);
                             }

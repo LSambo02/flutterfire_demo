@@ -28,14 +28,14 @@ abstract class MinionCollectionReference
     DocumentSnapshot<Map<String, Object?>> snapshot,
     SnapshotOptions? options,
   ) {
-    return _$MinionFromJson(snapshot.data()!);
+    return Minion.fromJson(snapshot.data()!);
   }
 
   static Map<String, Object?> toFirestore(
     Minion value,
     SetOptions? options,
   ) {
-    return _$MinionToJson(value);
+    return value.toJson();
   }
 
   @override
@@ -114,10 +114,10 @@ abstract class MinionDocumentReference
   Future<void> delete();
 
   Future<void> update({
-    String name,
-    String trait,
-    String skill,
-    int age,
+    String? name,
+    String? trait,
+    String? skill,
+    int? age,
   });
 
   Future<void> set(Minion value);
@@ -168,10 +168,10 @@ class _$MinionDocumentReference
     Object? age = _sentinel,
   }) async {
     final json = {
-      if (name != _sentinel) "name": name as String,
-      if (trait != _sentinel) "trait": trait as String,
-      if (skill != _sentinel) "skill": skill as String,
-      if (age != _sentinel) "age": age as int,
+      if (name != _sentinel) "name": name as String?,
+      if (trait != _sentinel) "trait": trait as String?,
+      if (skill != _sentinel) "skill": skill as String?,
+      if (age != _sentinel) "age": age as int?,
     };
 
     return reference.update(json);
@@ -228,8 +228,8 @@ abstract class MinionQuery implements QueryReference<MinionQuerySnapshot> {
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   });
   MinionQuery whereTrait({
     String? isEqualTo,
@@ -239,8 +239,8 @@ abstract class MinionQuery implements QueryReference<MinionQuerySnapshot> {
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   });
   MinionQuery whereSkill({
     String? isEqualTo,
@@ -250,8 +250,8 @@ abstract class MinionQuery implements QueryReference<MinionQuerySnapshot> {
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   });
   MinionQuery whereAge({
     int? isEqualTo,
@@ -261,16 +261,16 @@ abstract class MinionQuery implements QueryReference<MinionQuerySnapshot> {
     int? isGreaterThan,
     int? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<int>? whereIn,
-    List<int>? whereNotIn,
+    List<int?>? whereIn,
+    List<int?>? whereNotIn,
   });
 
   MinionQuery orderByName({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
     MinionDocumentSnapshot? startAtDocument,
     MinionDocumentSnapshot? endAtDocument,
     MinionDocumentSnapshot? endBeforeDocument,
@@ -279,10 +279,10 @@ abstract class MinionQuery implements QueryReference<MinionQuerySnapshot> {
 
   MinionQuery orderByTrait({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
     MinionDocumentSnapshot? startAtDocument,
     MinionDocumentSnapshot? endAtDocument,
     MinionDocumentSnapshot? endBeforeDocument,
@@ -291,10 +291,10 @@ abstract class MinionQuery implements QueryReference<MinionQuerySnapshot> {
 
   MinionQuery orderBySkill({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
     MinionDocumentSnapshot? startAtDocument,
     MinionDocumentSnapshot? endAtDocument,
     MinionDocumentSnapshot? endBeforeDocument,
@@ -303,10 +303,10 @@ abstract class MinionQuery implements QueryReference<MinionQuerySnapshot> {
 
   MinionQuery orderByAge({
     bool descending = false,
-    int startAt,
-    int startAfter,
-    int endAt,
-    int endBefore,
+    int? startAt,
+    int? startAfter,
+    int? endAt,
+    int? endBefore,
     MinionDocumentSnapshot? startAtDocument,
     MinionDocumentSnapshot? endAtDocument,
     MinionDocumentSnapshot? endBeforeDocument,
@@ -383,8 +383,8 @@ class _$MinionQuery extends QueryReference<MinionQuerySnapshot>
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   }) {
     return _$MinionQuery(
       reference.where(
@@ -411,8 +411,8 @@ class _$MinionQuery extends QueryReference<MinionQuerySnapshot>
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   }) {
     return _$MinionQuery(
       reference.where(
@@ -439,8 +439,8 @@ class _$MinionQuery extends QueryReference<MinionQuerySnapshot>
     String? isGreaterThan,
     String? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
   }) {
     return _$MinionQuery(
       reference.where(
@@ -467,8 +467,8 @@ class _$MinionQuery extends QueryReference<MinionQuerySnapshot>
     int? isGreaterThan,
     int? isGreaterThanOrEqualTo,
     bool? isNull,
-    List<int>? whereIn,
-    List<int>? whereNotIn,
+    List<int?>? whereIn,
+    List<int?>? whereNotIn,
   }) {
     return _$MinionQuery(
       reference.where(
@@ -704,10 +704,10 @@ class MinionQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot
 // **************************************************************************
 
 Minion _$MinionFromJson(Map<String, dynamic> json) => Minion(
-      name: json['name'] as String,
-      trait: json['trait'] as String,
-      skill: json['skill'] as String,
-      age: json['age'] as int,
+      name: json['name'] as String?,
+      trait: json['trait'] as String?,
+      skill: json['skill'] as String?,
+      age: json['age'] as int?,
     );
 
 Map<String, dynamic> _$MinionToJson(Minion instance) => <String, dynamic>{

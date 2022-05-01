@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../models/minion.dart';
+
 class FirestoreService {
   //instanciar a coleção
   CollectionReference minions =
       FirebaseFirestore.instance.collection('minions');
 
-  Future<String> addMinion(String minionName) {
+  Future<String> addMinion(Minion minion) {
     //adicionar o objecto em forma de json para a coleção de minions
     return minions
-        .add({
-          'nome': minionName,
-        })
+        .add(minion.toJson())
         .then((value) => "Mais um minion adicionado à família")
         .catchError((error) =>
             "Parece que teve problemas com o último minion:\n $error");
