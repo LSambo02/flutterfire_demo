@@ -16,10 +16,10 @@ class FirestoreService {
             "Parece que teve problemas com o último minion:\n $error");
   }
 
-  Future<QuerySnapshot> queryCollection(queryString) async {
+  Future<MinionQuerySnapshot> queryCollection(queryString) async {
     //retorna o snapshot equivalente aos objectos json onde
     // o nome é igual ao passado como argumento
-    return await minions.where('nome', isEqualTo: queryString).get();
+    return await minionsRef.whereName(isEqualTo: queryString).get();
   }
 
   Future updateUser(nome, novoNome) {
