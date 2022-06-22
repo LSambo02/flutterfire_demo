@@ -15,5 +15,8 @@ A demo application with the intent to explain Flutterfire concepts, combined wit
 In order to make it a fun learning experience this app is built around the idea of a NFT gallery for Minions.
 
 ### Screenshots
+- ![login](./screenshots/login.PNG)
+- ![home](./screenshots/home.png)
+- ![add_minion](./screenshots/add_minion.png)
 
 
