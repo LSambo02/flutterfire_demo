@@ -49,17 +49,15 @@ class AddMinion extends StatelessWidget {
                             'ADICIONAR',
                           ),
                           onPressed: () async {
-                            if (minionName != null) {
-                              Minion minion = Minion(
-                                  name: minionName,
-                                  age: 12,
-                                  skill: 'Sing',
-                                  trait: 'Gums');
-                              String _message =
-                                  await firestoreService.addMinion(minion);
-                              print(_message);
-                              Navigator.pop(context);
-                            }
+                            Minion minion = Minion(
+                                name: minionName,
+                                age: 12,
+                                skill: 'Sing',
+                                trait: 'Gums');
+                            String _message =
+                                await firestoreService.addMinion(minion);
+                            print(_message);
+                            Navigator.pop(context);
                           }),
                       SizedBox(
                         width: width / 40,

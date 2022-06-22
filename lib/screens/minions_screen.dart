@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_demo/helpers/constantes.dart';
 import 'package:flutterfire_demo/models/minion.dart';
 import 'package:flutterfire_demo/widgets/add_minion_dialog.dart';
+import 'package:flutterfire_demo/widgets/minion_card.dart';
 
 class MinionsScreen extends StatefulWidget {
   @override
@@ -18,6 +20,7 @@ class _MinionsScreenState extends State<MinionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color.fromRGBO(255, 255, 195, 0.8),
         appBar: AppBar(
           title: Text('Minions'),
           actions: [
@@ -56,25 +59,17 @@ class _MinionsScreenState extends State<MinionsScreen> {
 
             MinionQuerySnapshot minionSnapshot = snapshot.requireData;
 
-            return new ListView.builder(
+            return new GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 0.6,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 1,
+                  crossAxisCount: 2),
               itemCount: minionSnapshot.docs.length,
               itemBuilder: (context, index) {
                 Minion minion = minionSnapshot.docs[index].data;
-                return new ListTile(
-                  title: new Text(
-                    minion.name!.toString(),
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: Image.asset(
-                      'assets/minions.png',
-                    ),
-                  ),
-                  subtitle: Divider(
-                    thickness: 2,
-                  ),
-                );
+                return new MinionCard(
+                    minion.name!.toString(), minion.trait!.toString());
               },
             );
           },

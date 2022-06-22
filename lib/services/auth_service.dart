@@ -43,6 +43,7 @@ class AuthService {
       message = userCredential.additionalUserInfo!.username!;
       if (isEmailVerified()) {
         message = 'Login Efectuado com Sucesso\nParabéns, ganhou acesso à app';
+        print(userCredential.credential?.token.toString());
       }
       return message;
       // ?? 'Login Efectuado com Sucesso\nAguardando Confirmação de email';
