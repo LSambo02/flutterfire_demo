@@ -1,16 +1,19 @@
 # flutterfire_demo
 
-A new Flutter application.
+A demo application with the intent to explain Flutterfire concepts, combined with experimentation through practical examples.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Points Covered
+- Authentication
+  - Google Sign In
+  - Email/Password
+- Cloud Firestore
+- Cloud Firestore ODM
 
-A few resources to get you started if this is your first Flutter project:
+## Context
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+In order to make it a fun learning experience this app is built around the idea of a NFT gallery for Minions.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Screenshots
+
+
